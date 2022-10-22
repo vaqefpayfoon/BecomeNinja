@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BecomeNinja", "BecomeNinja\BecomeNinja.csproj", "{7EDB5C1B-E9C2-4984-8DF2-B9055941DA5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "algorithm", "algorithm\algorithm.csproj", "{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{7EDB5C1B-E9C2-4984-8DF2-B9055941DA5F}.Release|x64.Build.0 = Release|Any CPU
 		{7EDB5C1B-E9C2-4984-8DF2-B9055941DA5F}.Release|x86.ActiveCfg = Release|Any CPU
 		{7EDB5C1B-E9C2-4984-8DF2-B9055941DA5F}.Release|x86.Build.0 = Release|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Debug|x64.Build.0 = Debug|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Release|x64.ActiveCfg = Release|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Release|x64.Build.0 = Release|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{A62DB8D8-4A93-4881-B82A-D438CC2B84B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

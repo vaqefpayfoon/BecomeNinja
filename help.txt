@@ -1,0 +1,134 @@
+--version Display the .NET SDK version 
+in use
+--info Display .NET information
+--list-runtimes Display the installed runtimes
+--list-sdks Display the installed SDKs
+
+This creates a global.json file that looks like this:
+{
+ "sdk": {
+ "version": "5.0.400"
+ }
+}
+
+string[] theArgs = Environment.GetCommandLineArgs();
+foreach (string arg in theArgs)
+{
+    Console.WriteLine("Arg: {0}", arg);
+}
+foreach (string drive in Environment.GetLogicalDrives())
+{
+    Console.WriteLine("Drive: {0}", drive);
+}
+Console.WriteLine("OS: {0}", Environment.OSVersion);
+Console.WriteLine("Number of processors: {0}",
+Environment.ProcessorCount);
+Console.WriteLine(".NET Core Version: {0}",
+Environment.Version);
+
+bool b = new(); // Set to false.
+int i = new(); // Set to 0.
+double d = new(); // Set to 0.
+DateTime dt = new(); // Set to 1/1/0001 12:00:00 AM
+
+
+public class Make
+{
+    public int Name
+    {
+        get => default;
+        set { }
+    }
+}
+
+Console.WriteLine("bool.FalseString: {0}", bool.FalseString);
+Console.WriteLine("bool.TrueString: {0}", bool.TrueString);
+
+char myChar = 'a';
+Console.WriteLine("char.IsDigit('a'): {0}", char.IsDigit(myChar));
+Console.WriteLine("char.IsLetter('a'): {0}", char.IsLetter(myChar));
+Console.WriteLine("char.IsWhiteSpace('Hello There', 5): {0}", char.IsWhiteSpace("Hello There", 5));
+
+bool b = bool.Parse("True");
+ Console.WriteLine("Value of b: {0}", b);
+ double d = double.Parse("99.884");
+ Console.WriteLine("Value of d: {0}", d);
+ int i = int.Parse("8");
+ Console.WriteLine("Value of i: {0}", i);
+ char c = Char.Parse("w");
+ Console.WriteLine("Value of c: {0}", c);
+
+ int[] numbers = { 10, 20, 30, 40, 1, 2, 3, 8 };
+// LINQ query!
+IEnumerable<int> subset = from i in numbers where i < 10 select i;
+Console.Write("Values in subset: ");
+foreach (var i in subset)
+{
+    Console.Write("{0} ", i);
+}
+
+int a = 1;
+if (a is int)
+{
+    Console.WriteLine("True");
+}
+
+var smallArray = new int[] { 1, 2, 3, 4, 5 };
+var largeArray = new int[] { 10, 20, 30, 40, 50 };
+int index = 7;
+ref int refValue = ref ((index < 5)
+? ref smallArray[index]
+: ref largeArray[largeArray.Length - 1]);
+Console.WriteLine(refValue);
+
+var players = new List<Player> {
+                new Player { Name = "Alex", Team = "A", Score = 10 },
+                new Player { Name = "Anna", Team = "A", Score = 20 },
+                new Player { Name = "Luke", Team = "L", Score = 60 },
+                new Player { Name = "Lucy", Team = "L", Score = 40 },
+            };
+
+            var teamTotalScores =
+                from player in players
+                group player by player.Team into playerGroup
+                select new
+                {
+                    Team = playerGroup.Key,
+                    TotalScore = playerGroup.Sum(x => x.Score),
+                };
+            foreach (var woak in teamTotalScores)
+            {
+                Console.WriteLine(woak.TotalScore + "" + woak.Team);
+            }
+			
+	
+	Console.WriteLine((int)EmpTypeEnum.Contractor);
+	enum EmpTypeEnum
+    {
+        Manager = 102,
+        Grunt, // = 103
+        Contractor, // = 104
+        VicePresident // = 105
+    }
+	
+	
+ & (AND) Copies a bit if it exists in both operands 0110 & 0100 = 0100 (4)
+ | (OR) Copies a bit if it exists in both operands 0110 | 0100 = 0110 (6)
+ ^ (XOR) Copies a bit if it exists in one but not both operands 0110 ^ 0100 = 0010 (2)
+ ~ (ones’ compliment) Flips the bits ~0110 = -7 (due to overflow)
+ << (left shift) Shifts the bits left 0110 << 1 = 1100 (12)
+ >> (right shift) Shifts the bits right 0110 >> 1 = 0011 (3)
+ 
+ 
+ Console.WriteLine((MultiHue)9);
+ [Flags]
+    enum MultiHue : short
+    {
+        None = 0,
+        Black = 1,
+        Red = 2,
+        Green = 4,
+        Blue = 8
+    };
+	
+Nullable<int> val = new int(); => 0

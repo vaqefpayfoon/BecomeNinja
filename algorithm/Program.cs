@@ -9,8 +9,9 @@ namespace algorithm
         {
             // ReverseString("Vaqef Payfoon");
             // chkPalindrome("VaaV");
-            ReverseWordOrder("Yaka Vaqef omade khosro");
-            ReverseWords("Yaka Vaqef omade khosro");
+            // ReverseWordOrder("Yaka Vaqef omade khosro");
+            // ReverseWords("Yaka Vaqef omade khosro");
+            Console.WriteLine(NumberOfPositions("shixfixvaqefvaqf", "shixfixvaqefvaqf"));
         }
         //How to reverse a string?
         internal static void ReverseString(string str)
@@ -101,6 +102,31 @@ namespace algorithm
             }
             Console.WriteLine(output.ToString());
         }
+        
+        
+        
+        // Method to count occurrences of two-character substrings that are common in both input strings
+        internal static int NumberOfPositions(string str1, string str2)
+        {
+            var ctr = 0; // Counter to track the occurrences of common two-character substrings
+
+            // Iterate through the first string's characters except the last one
+            for (var i = 0; i < str1.Length - 1; i++)
+            {
+                var firstString = str1.Substring(i, 2); // Extract a two-character substring from the first string
+
+                // Iterate through the second string's characters except the last one
+                for (var j = 0; j < str2.Length - 1; j++)
+                {
+                    var secondString = str2.Substring(j, 2); // Extract a two-character substring from the second string
+
+                    // Check if the extracted substrings from both strings are equal
+                    if (firstString.Equals(secondString))
+                        ctr++; // Increment the counter if the substrings are equal
+                }
+            }
+            return ctr; // Return the total count of common two-character substrings
+        }
     }
     public abstract class Car
     {
@@ -121,4 +147,5 @@ namespace algorithm
             base.Dashboard();
         }
     }
+
 }

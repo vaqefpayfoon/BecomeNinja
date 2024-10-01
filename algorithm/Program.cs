@@ -1,17 +1,31 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Text;
+using System.Xml.XPath;
 
 namespace algorithm
 {
     class Program
     {
+        delegate void Printer();
         static void Main(string[] args)
         {
-            // ReverseString("Vaqef Payfoon");
-            // chkPalindrome("VaaV");
-            // ReverseWordOrder("Yaka Vaqef omade khosro");
-            // ReverseWords("Yaka Vaqef omade khosro");
-            Console.WriteLine(NumberOfPositions("shixfixvaqefvaqf", "shixfixvaqefvaqf"));
+            int k = 3; // Example value for k
+            int[] sequence = { 1, 2, 3, 0, 2 }; // Example sequence
+
+            int score = CalculateScore(sequence, k);
+            Console.WriteLine($"Score of the sequence: {score}");
+        }
+        static int CalculateScore(int[] sequence, int k)
+        {
+            int score = 0;
+            for (int i = 0; i < sequence.Length - 1; i++)
+            {
+                if (sequence[i] + sequence[i + 1] == k)
+                {
+                    score++;
+                }
+            }
+            return score;
         }
         //How to reverse a string?
         internal static void ReverseString(string str)
@@ -90,7 +104,6 @@ namespace algorithm
                 {
                     if (i == str.Length - 1)
                         charlist.Add(str[i]);
-                    Console.WriteLine(charlist);
                     for (int j = charlist.Count - 1; j >= 0; j--)
                         output.Append(charlist[j]);
 
@@ -102,9 +115,32 @@ namespace algorithm
             }
             Console.WriteLine(output.ToString());
         }
-        
-        
-        
+
+        internal static int TotalEvenNumbers(int[] nums)
+        {
+            int cnt = 0;
+            for (int i = 0; i <= nums.Length - 1; i++)
+            {
+                if (nums[i] % 2 == 0)
+                {
+                    cnt += nums[i];
+                }
+            }
+            return nums.Where(i => i % 2 == 0).Count();
+
+            // return cnt;
+        }
+
+        internal static long TotalAllEvenNumbers(int[] intArray)
+        {
+            return intArray.Where(i => i % 2 == 0).Sum(i => (long)i);
+        }
+
+        internal static long TotalAllEvenNumbers2(int[] intArray)
+        {
+            return (from i in intArray where i % 2 == 0 select (long)i).Sum();
+        }
+
         // Method to count occurrences of two-character substrings that are common in both input strings
         internal static int NumberOfPositions(string str1, string str2)
         {
@@ -126,6 +162,23 @@ namespace algorithm
                 }
             }
             return ctr; // Return the total count of common two-character substrings
+
+        }
+        static async Task<string> SaySomething()
+        {
+            await Task.Delay(5);
+            return "Hello world!";
+        }
+
+
+    }
+    public sealed class Circle
+    {
+        public double radius;
+
+        public double Calculate(Func<double, double> op)
+        {
+            return op(radius);
         }
     }
     public abstract class Car
@@ -148,4 +201,34 @@ namespace algorithm
         }
     }
 
+    public class TestStatic
+    {
+        public static int TestValue;
+        //first constructor will run and then static constructor will run
+        public TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 5;
+            }
+        }
+        static TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 10;
+            }
+
+        }
+
+        public void Print()
+        {
+            if (TestValue == 5)
+            {
+                TestValue = 6;
+            }
+            Console.WriteLine("TestValue : " + TestValue);
+
+        }
+    }
 }

@@ -56,15 +56,15 @@ namespace BecomeNinja
             Console.WriteLine("Called ClassB.MethodB() with parameter: " + message);
         }
     }
-    public delegate T add<T>(T param1, T param2);
+    public delegate T Add<T>(T param1, T param2);
     public class GenericDelegate
     {
         public GenericDelegate()
         {
-            add<int> sum = Sum;
+            Add<int> sum = Sum;
             Console.WriteLine(sum(10, 20));
 
-            add<string> con = Concat;
+            Add<string> con = Concat;
             Console.WriteLine(Concat("Hello ", "World!!"));
         }
 

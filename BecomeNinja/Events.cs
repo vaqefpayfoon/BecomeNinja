@@ -50,7 +50,7 @@ namespace BecomeNinja
 
                 OnProcessCompleted(true);
             }
-            catch (Exception ex)
+            catch
             {
                 OnProcessCompleted(false);
             }
@@ -85,7 +85,7 @@ namespace BecomeNinja
                 data.CompletionTime = DateTime.Now;
                 OnProcessCompleted(data);
             }
-            catch (Exception ex)
+            catch
             {
                 data.IsSuccessful = false;
                 data.CompletionTime = DateTime.Now;

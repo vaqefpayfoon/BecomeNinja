@@ -1,0 +1,922 @@
+## **Top C# Algorithms Interview Questions**
+
+Here are the most commonly asked algorithms in C# interviews, with **optimal solutions** and **step-by-step explanations**.
+
+---
+
+# **1. TWO SUM (Array/Hash Table)**
+
+**Problem:** Find two numbers in an array that add up to a target.
+
+### ❌ **Brute Force O(n²)**
+```csharp
+public int[] TwoSum(int[] nums, int target)
+{
+    for (int i = 0; i < nums.Length; i++)
+        for (int j = i + 1; j < nums.Length; j++)
+            if (nums[i] + nums[j] == target)
+                return new int[] { i, j };
+    return new int[0];
+}
+```
+
+### ✅ **Optimal O(n) - Hash Table**
+```csharp
+public int[] TwoSum(int[] nums, int target)
+{
+    var map = new Dictionary<int, int>();
+    
+    for (int i = 0; i < nums.Length; i++)
+    {
+        int complement = target - nums[i];
+        
+        if (map.ContainsKey(complement))
+            return new int[] { map[complement], i };
+        
+        if (!map.ContainsKey(nums[i]))
+            map.Add(nums[i], i);
+    }
+    
+    return new int[0];
+}
+```
+
+**Key Points:**
+- **Time:** O(n) - single pass
+- **Space:** O(n) - dictionary storage
+- **Edge cases:** Duplicates, no solution, negative numbers
+
+---
+
+# **2. REVERSE A LINKED LIST**
+
+**Problem:** Reverse a singly linked list.
+
+```csharp
+public class ListNode
+{
+    public int val;
+    public ListNode next;
+    public ListNode(int val = 0, ListNode next = null)
+    {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+// Iterative Approach - O(n)
+public ListNode ReverseList(ListNode head)
+{
+    ListNode prev = null;
+    ListNode current = head;
+    
+    while (current != null)
+    {
+        ListNode nextTemp = current.next;  // Save next
+        current.next = prev;               // Reverse pointer
+        prev = current;                   // Move prev forward
+        current = nextTemp;              // Move current forward
+    }
+    
+    return prev;  // New head
+}
+
+// Recursive Approach - O(n)
+public ListNode ReverseListRecursive(ListNode head)
+{
+    if (head == null || head.next == null)
+        return head;
+    
+    ListNode newHead = ReverseListRecursive(head.next);
+    head.next.next = head;  // Reverse the link
+    head.next = null;       // Set old next to null
+    
+    return newHead;
+}
+```
+
+**Key Points:**
+- **Time:** O(n) - visit each node once
+- **Space:** O(1) iterative, O(n) recursive (stack)
+- **Must handle:** null list, single node
+
+---
+
+# **3. VALID PARENTHESES (Stack)**
+
+**Problem:** Determine if string has valid brackets: `()`, `{}`, `[]`
+
+```csharp
+public bool IsValid(string s)
+{
+    var stack = new Stack<char>();
+    var map = new Dictionary<char, char>
+    {
+        { ')', '(' },
+        { '}', '{' },
+        { ']', '[' }
+    };
+    
+    foreach (char c in s)
+    {
+        if (map.ContainsValue(c))  // Opening bracket
+        {
+            stack.Push(c);
+        }
+        else if (map.ContainsKey(c))  // Closing bracket
+        {
+            if (stack.Count == 0 || stack.Pop() != map[c])
+                return false;
+        }
+    }
+    
+    return stack.Count == 0;
+}
+```
+
+**Key Points:**
+- **Time:** O(n) - single pass
+- **Space:** O(n) - stack storage
+- **Must handle:** empty string, single bracket, nested brackets
+
+---
+
+# **4. BINARY SEARCH**
+
+**Problem:** Find target in sorted array.
+
+```csharp
+// Iterative Binary Search
+public int BinarySearch(int[] nums, int target)
+{
+    int left = 0;
+    int right = nums.Length - 1;
+    
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;  // Avoid overflow
+        
+        if (nums[mid] == target)
+            return mid;
+        else if (nums[mid] < target)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    
+    return -1;  // Not found
+}
+
+// Recursive Binary Search
+public int BinarySearchRecursive(int[] nums, int target, int left, int right)
+{
+    if (left > right)
+        return -1;
+    
+    int mid = left + (right - left) / 2;
+    
+    if (nums[mid] == target)
+        return mid;
+    else if (nums[mid] < target)
+        return BinarySearchRecursive(nums, target, mid + 1, right);
+    else
+        return BinarySearchRecursive(nums, target, left, mid - 1);
+}
+```
+
+**Key Points:**
+- **Time:** O(log n)
+- **Space:** O(1) iterative, O(log n) recursive
+- **Prerequisite:** Array must be **sorted**
+- **Common variations:** Find first/last occurrence, find insertion position
+
+---
+
+# **5. FIZZBUZZ (Basic Screening)**
+
+```csharp
+public IList<string> FizzBuzz(int n)
+{
+    var result = new List<string>();
+    
+    for (int i = 1; i <= n; i++)
+    {
+        if (i % 3 == 0 && i % 5 == 0)
+            result.Add("FizzBuzz");
+        else if (i % 3 == 0)
+            result.Add("Fizz");
+        else if (i % 5 == 0)
+            result.Add("Buzz");
+        else
+            result.Add(i.ToString());
+    }
+    
+    return result;
+}
+
+// Advanced: No modulo operator
+public IList<string> FizzBuzzNoModulo(int n)
+{
+    var result = new List<string>();
+    int fizz = 0, buzz = 0;
+    
+    for (int i = 1; i <= n; i++)
+    {
+        fizz++;
+        buzz++;
+        
+        if (fizz == 3 && buzz == 5)
+        {
+            result.Add("FizzBuzz");
+            fizz = 0;
+            buzz = 0;
+        }
+        else if (fizz == 3)
+        {
+            result.Add("Fizz");
+            fizz = 0;
+        }
+        else if (buzz == 5)
+        {
+            result.Add("Buzz");
+            buzz = 0;
+        }
+        else
+        {
+            result.Add(i.ToString());
+        }
+    }
+    
+    return result;
+}
+```
+
+---
+
+# **6. MERGE TWO SORTED ARRAYS**
+
+```csharp
+public void Merge(int[] nums1, int m, int[] nums2, int n)
+{
+    // Start from the end
+    int p1 = m - 1;
+    int p2 = n - 1;
+    int p = m + n - 1;
+    
+    while (p1 >= 0 && p2 >= 0)
+    {
+        if (nums1[p1] > nums2[p2])
+            nums1[p--] = nums1[p1--];
+        else
+            nums1[p--] = nums2[p2--];
+    }
+    
+    // Copy remaining elements from nums2
+    while (p2 >= 0)
+        nums1[p--] = nums2[p2--];
+}
+```
+
+**Key Points:**
+- **Time:** O(m + n)
+- **Space:** O(1) - in-place
+- **Trick:** Start from the **end** to avoid overwriting
+
+---
+
+# **7. MAXIMUM SUBARRAY (Kadane's Algorithm)**
+
+**Problem:** Find contiguous subarray with largest sum.
+
+```csharp
+public int MaxSubArray(int[] nums)
+{
+    int maxCurrent = nums[0];
+    int maxGlobal = nums[0];
+    
+    for (int i = 1; i < nums.Length; i++)
+    {
+        maxCurrent = Math.Max(nums[i], maxCurrent + nums[i]);
+        maxGlobal = Math.Max(maxGlobal, maxCurrent);
+    }
+    
+    return maxGlobal;
+}
+
+// Return the actual subarray
+public int[] MaxSubArrayWithIndices(int[] nums)
+{
+    int maxCurrent = nums[0];
+    int maxGlobal = nums[0];
+    int start = 0, end = 0, tempStart = 0;
+    
+    for (int i = 1; i < nums.Length; i++)
+    {
+        if (nums[i] > maxCurrent + nums[i])
+        {
+            maxCurrent = nums[i];
+            tempStart = i;
+        }
+        else
+        {
+            maxCurrent = maxCurrent + nums[i];
+        }
+        
+        if (maxCurrent > maxGlobal)
+        {
+            maxGlobal = maxCurrent;
+            start = tempStart;
+            end = i;
+        }
+    }
+    
+    return nums[start..(end + 1)];
+}
+```
+
+**Key Points:**
+- **Time:** O(n)
+- **Space:** O(1)
+- **Handles:** All negative numbers (returns largest)
+
+---
+
+# **8. PALINDROME CHECK**
+
+```csharp
+// String palindrome
+public bool IsPalindrome(string s)
+{
+    // Clean string: remove non-alphanumeric, lowercase
+    var cleaned = new string(s.Where(char.IsLetterOrDigit)
+                              .Select(char.ToLower)
+                              .ToArray());
+    
+    int left = 0, right = cleaned.Length - 1;
+    
+    while (left < right)
+    {
+        if (cleaned[left] != cleaned[right])
+            return false;
+        left++;
+        right--;
+    }
+    
+    return true;
+}
+
+// Integer palindrome (no string conversion)
+public bool IsPalindrome(int x)
+{
+    if (x < 0 || (x % 10 == 0 && x != 0))
+        return false;
+    
+    int reversed = 0;
+    while (x > reversed)
+    {
+        reversed = reversed * 10 + x % 10;
+        x /= 10;
+    }
+    
+    return x == reversed || x == reversed / 10;
+}
+
+// Linked List palindrome
+public bool IsPalindrome(ListNode head)
+{
+    if (head == null) return true;
+    
+    // Find middle
+    ListNode slow = head, fast = head;
+    while (fast?.next != null)
+    {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    
+    // Reverse second half
+    ListNode secondHalf = ReverseList(slow);
+    ListNode firstHalf = head;
+    
+    // Compare
+    while (secondHalf != null)
+    {
+        if (firstHalf.val != secondHalf.val)
+            return false;
+        firstHalf = firstHalf.next;
+        secondHalf = secondHalf.next;
+    }
+    
+    return true;
+}
+```
+
+---
+
+# **9. ANAGRAM CHECK**
+
+```csharp
+// Method 1: Sort and compare
+public bool IsAnagram(string s, string t)
+{
+    if (s.Length != t.Length) return false;
+    
+    char[] sChars = s.ToCharArray();
+    char[] tChars = t.ToCharArray();
+    
+    Array.Sort(sChars);
+    Array.Sort(tChars);
+    
+    return new string(sChars) == new string(tChars);
+}
+
+// Method 2: Character count (optimal)
+public bool IsAnagramOptimized(string s, string t)
+{
+    if (s.Length != t.Length) return false;
+    
+    int[] count = new int[26];  // Assuming lowercase
+    
+    for (int i = 0; i < s.Length; i++)
+    {
+        count[s[i] - 'a']++;
+        count[t[i] - 'a']--;
+    }
+    
+    return count.All(c => c == 0);
+}
+
+// Method 3: Unicode safe
+public bool IsAnagramUnicode(string s, string t)
+{
+    if (s.Length != t.Length) return false;
+    
+    var dict = new Dictionary<char, int>();
+    
+    foreach (char c in s)
+        dict[c] = dict.GetValueOrDefault(c) + 1;
+    
+    foreach (char c in t)
+    {
+        if (!dict.ContainsKey(c) || dict[c] == 0)
+            return false;
+        dict[c]--;
+    }
+    
+    return true;
+}
+```
+
+---
+
+# **10. BINARY TREE TRAVERSALS**
+
+```csharp
+public class TreeNode
+{
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
+    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+    {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+// Inorder: Left -> Root -> Right
+public IList<int> InorderTraversal(TreeNode root)
+{
+    var result = new List<int>();
+    var stack = new Stack<TreeNode>();
+    var current = root;
+    
+    while (current != null || stack.Count > 0)
+    {
+        while (current != null)
+        {
+            stack.Push(current);
+            current = current.left;
+        }
+        
+        current = stack.Pop();
+        result.Add(current.val);
+        current = current.right;
+    }
+    
+    return result;
+}
+
+// Preorder: Root -> Left -> Right
+public IList<int> PreorderTraversal(TreeNode root)
+{
+    var result = new List<int>();
+    if (root == null) return result;
+    
+    var stack = new Stack<TreeNode>();
+    stack.Push(root);
+    
+    while (stack.Count > 0)
+    {
+        var node = stack.Pop();
+        result.Add(node.val);
+        
+        if (node.right != null) stack.Push(node.right);
+        if (node.left != null) stack.Push(node.left);
+    }
+    
+    return result;
+}
+
+// Postorder: Left -> Right -> Root
+public IList<int> PostorderTraversal(TreeNode root)
+{
+    var result = new List<int>();
+    var stack = new Stack<TreeNode>();
+    TreeNode lastVisited = null;
+    var current = root;
+    
+    while (current != null || stack.Count > 0)
+    {
+        while (current != null)
+        {
+            stack.Push(current);
+            current = current.left;
+        }
+        
+        var peek = stack.Peek();
+        if (peek.right != null && lastVisited != peek.right)
+        {
+            current = peek.right;
+        }
+        else
+        {
+            result.Add(peek.val);
+            lastVisited = stack.Pop();
+        }
+    }
+    
+    return result;
+}
+
+// Level Order (BFS)
+public IList<IList<int>> LevelOrder(TreeNode root)
+{
+    var result = new List<IList<int>>();
+    if (root == null) return result;
+    
+    var queue = new Queue<TreeNode>();
+    queue.Enqueue(root);
+    
+    while (queue.Count > 0)
+    {
+        int levelSize = queue.Count;
+        var currentLevel = new List<int>();
+        
+        for (int i = 0; i < levelSize; i++)
+        {
+            var node = queue.Dequeue();
+            currentLevel.Add(node.val);
+            
+            if (node.left != null) queue.Enqueue(node.left);
+            if (node.right != null) queue.Enqueue(node.right);
+        }
+        
+        result.Add(currentLevel);
+    }
+    
+    return result;
+}
+```
+
+---
+
+# **11. MERGE INTERVALS**
+
+```csharp
+public int[][] Merge(int[][] intervals)
+{
+    if (intervals.Length <= 1)
+        return intervals;
+    
+    // Sort by start time
+    Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));
+    
+    var result = new List<int[]>();
+    int[] current = intervals[0];
+    result.Add(current);
+    
+    foreach (var interval in intervals)
+    {
+        if (interval[0] <= current[1])  // Overlapping
+        {
+            current[1] = Math.Max(current[1], interval[1]);
+        }
+        else  // Non-overlapping
+        {
+            current = interval;
+            result.Add(current);
+        }
+    }
+    
+    return result.ToArray();
+}
+```
+
+---
+
+# **12. SINGLE NUMBER (Find non-duplicate)**
+
+```csharp
+// Using XOR - O(n), O(1)
+public int SingleNumber(int[] nums)
+{
+    int result = 0;
+    
+    foreach (int num in nums)
+        result ^= num;  // XOR cancels duplicates
+    
+    return result;
+}
+
+// All other numbers appear twice, one appears once
+// XOR properties: a^a=0, a^0=a, commutative
+```
+
+---
+
+# **13. PRODUCT OF ARRAY EXCEPT SELF**
+
+```csharp
+public int[] ProductExceptSelf(int[] nums)
+{
+    int n = nums.Length;
+    int[] result = new int[n];
+    
+    // Left products
+    result[0] = 1;
+    for (int i = 1; i < n; i++)
+        result[i] = result[i - 1] * nums[i - 1];
+    
+    // Right products
+    int right = 1;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        result[i] *= right;
+        right *= nums[i];
+    }
+    
+    return result;
+}
+```
+
+**Key Points:**
+- **Time:** O(n)
+- **Space:** O(1) excluding output
+- **Constraint:** Cannot use division
+
+---
+
+# **14. CONTAINS DUPLICATE**
+
+```csharp
+// Method 1: HashSet - O(n), O(n)
+public bool ContainsDuplicate(int[] nums)
+{
+    var set = new HashSet<int>();
+    
+    foreach (int num in nums)
+    {
+        if (set.Contains(num))
+            return true;
+        set.Add(num);
+    }
+    
+    return false;
+}
+
+// Method 2: Sort - O(n log n), O(1)
+public bool ContainsDuplicateSort(int[] nums)
+{
+    Array.Sort(nums);
+    
+    for (int i = 1; i < nums.Length; i++)
+        if (nums[i] == nums[i - 1])
+            return true;
+    
+    return false;
+}
+```
+
+---
+
+# **15. CLIMBING STAIRS (Fibonacci)**
+
+```csharp
+// Dynamic Programming - O(n), O(1)
+public int ClimbStairs(int n)
+{
+    if (n <= 2) return n;
+    
+    int first = 1;
+    int second = 2;
+    
+    for (int i = 3; i <= n; i++)
+    {
+        int third = first + second;
+        first = second;
+        second = third;
+    }
+    
+    return second;
+}
+
+// Recursive with memoization - O(n), O(n)
+public int ClimbStairsMemo(int n, Dictionary<int, int> memo = null)
+{
+    memo ??= new Dictionary<int, int>();
+    
+    if (n <= 2) return n;
+    if (memo.ContainsKey(n)) return memo[n];
+    
+    memo[n] = ClimbStairsMemo(n - 1, memo) + ClimbStairsMemo(n - 2, memo);
+    return memo[n];
+}
+```
+
+---
+
+# **16. ROTATE ARRAY**
+
+```csharp
+public void Rotate(int[] nums, int k)
+{
+    k %= nums.Length;
+    
+    // Reverse entire array
+    Reverse(nums, 0, nums.Length - 1);
+    // Reverse first k elements
+    Reverse(nums, 0, k - 1);
+    // Reverse remaining elements
+    Reverse(nums, k, nums.Length - 1);
+}
+
+private void Reverse(int[] nums, int start, int end)
+{
+    while (start < end)
+    {
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
+        start++;
+        end--;
+    }
+}
+```
+
+---
+
+# **17. MISSING NUMBER**
+
+```csharp
+// Method 1: Sum formula - O(n), O(1)
+public int MissingNumber(int[] nums)
+{
+    int n = nums.Length;
+    int expectedSum = n * (n + 1) / 2;
+    int actualSum = nums.Sum();
+    
+    return expectedSum - actualSum;
+}
+
+// Method 2: XOR - O(n), O(1)
+public int MissingNumberXOR(int[] nums)
+{
+    int missing = nums.Length;
+    
+    for (int i = 0; i < nums.Length; i++)
+        missing ^= i ^ nums[i];
+    
+    return missing;
+}
+```
+
+---
+
+# **18. INTERSECTION OF TWO ARRAYS**
+
+```csharp
+public int[] Intersection(int[] nums1, int[] nums2)
+{
+    var set1 = new HashSet<int>(nums1);
+    var result = new HashSet<int>();
+    
+    foreach (int num in nums2)
+        if (set1.Contains(num))
+            result.Add(num);
+    
+    return result.ToArray();
+}
+
+// With duplicates (II)
+public int[] Intersect(int[] nums1, int[] nums2)
+{
+    Array.Sort(nums1);
+    Array.Sort(nums2);
+    
+    int i = 0, j = 0;
+    var result = new List<int>();
+    
+    while (i < nums1.Length && j < nums2.Length)
+    {
+        if (nums1[i] < nums2[j])
+            i++;
+        else if (nums1[i] > nums2[j])
+            j++;
+        else
+        {
+            result.Add(nums1[i]);
+            i++;
+            j++;
+        }
+    }
+    
+    return result.ToArray();
+}
+```
+
+---
+
+# **19. FIRST UNIQUE CHARACTER**
+
+```csharp
+public int FirstUniqChar(string s)
+{
+    var count = new int[26];
+    
+    // Count frequencies
+    foreach (char c in s)
+        count[c - 'a']++;
+    
+    // Find first with count 1
+    for (int i = 0; i < s.Length; i++)
+        if (count[s[i] - 'a'] == 1)
+            return i;
+    
+    return -1;
+}
+```
+
+---
+
+# **20. VALID ANAGRAM**
+
+```csharp
+public bool IsAnagram(string s, string t)
+{
+    if (s.Length != t.Length) return false;
+    
+    int[] count = new int[26];
+    
+    for (int i = 0; i < s.Length; i++)
+    {
+        count[s[i] - 'a']++;
+        count[t[i] - 'a']--;
+    }
+    
+    return count.All(x => x == 0);
+}
+```
+
+---
+
+## **📊 INTERVIEW CHEAT SHEET**
+
+| Algorithm | Time | Space | Key Technique |
+|-----------|------|-------|---------------|
+| **Two Sum** | O(n) | O(n) | Hash Table |
+| **Reverse Linked List** | O(n) | O(1) | Pointer manipulation |
+| **Valid Parentheses** | O(n) | O(n) | Stack |
+| **Binary Search** | O(log n) | O(1) | Divide & Conquer |
+| **Max Subarray** | O(n) | O(1) | Kadane's |
+| **Merge Intervals** | O(n log n) | O(n) | Sort + Merge |
+| **Product Except Self** | O(n) | O(1) | Prefix/Suffix |
+| **Tree Traversal** | O(n) | O(n) | Stack/Queue |
+| **Single Number** | O(n) | O(1) | XOR |
+| **Climbing Stairs** | O(n) | O(1) | DP/Fibonacci |
+
+---
+
+## **💡 TIPS FOR INTERVIEWS**
+
+1. **Always clarify constraints** - sorted? duplicates? empty?
+2. **Start with brute force** - then optimize
+3. **Think about edge cases** - null, empty, single element
+4. **Write clean, readable code** - meaningful variable names
+5. **Explain your thought process** - talk through it
+6. **Test with examples** - walk through your solution
+7. **Consider space-time tradeoffs** - hash vs sort
+8. **Know built-in collections** - Dictionary, HashSet, Stack, Queue
+9. **Practice on paper/whiteboard** - no IDE help
+10. **Master these patterns** - Two pointers, Sliding window, BFS/DFS, DP, Backtracking

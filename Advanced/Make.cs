@@ -46,6 +46,19 @@ namespace Advanced
     {
         public int Id { get; set; }
     }
+    public class ClassTest : Abstraction
+    {
+        public override void MustOverride()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public abstract class Abstraction
+    {
+        public abstract void MustOverride();
+        public virtual void CanOverride() { /* default implementation */ }  // CAN override (optional)
 
+        public void CannotOverride() { /* default implementation */ }
+    }
 
 }

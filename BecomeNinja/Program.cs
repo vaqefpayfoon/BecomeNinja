@@ -2,6 +2,7 @@
 
 namespace BecomeNinja
 {
+    public delegate int MathOperation(int a, int b);
     class Program
     {
         static void Main(string[] args)
@@ -42,9 +43,26 @@ namespace BecomeNinja
             //var woak = new Covariance();
             int i = 10;
 
-            bool result = i.IsGreaterThanVaqefAge(100); 
+            bool result = i.IsGreaterThanVaqefAge(100);
 
             Console.WriteLine(result);
+
+            MathOperation addDelegate = (a, b) => a + b;
+            MathOperation addDelegate2 = Summer;
+            MathOperation multiplyDelegate = (a, b) => a * b;
+
+            // Console.WriteLine($"Delegate Add: {addDelegate(5, 3)}");        // 8
+            // Console.WriteLine($"Delegate Multiply: {multiplyDelegate(5, 3)}"); // 15
+            Console.WriteLine($"Delegate Multiply: {addDelegate2(1, 1)}"); // 15
+
+            // Same behavior with Func
+            Func<int, int, int> addFunc = (a, b) => a + b;
+            Func<int, int, int> multiplyFunc = (a, b) => a * b;
+
+            // Console.WriteLine($"Func Add: {addFunc(5, 3)}");        // 8
+            // Console.WriteLine($"Func Multiply: {multiplyFunc(5, 3)}"); // 15
+
+            new Delegates();
         }
         public static void bl_ProcessCompleted()
         {
@@ -62,6 +80,11 @@ namespace BecomeNinja
         {
             Console.WriteLine("Process " + (e.IsSuccessful ? "Completed Successfully" : "failed"));
             Console.WriteLine("Completion Time: " + e.CompletionTime.ToLongDateString());
+        }
+
+        public static int Summer(int a, int b)
+        {
+            return a + b;
         }
     }
 }

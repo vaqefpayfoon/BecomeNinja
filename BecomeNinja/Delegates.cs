@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BecomeNinja
 {
@@ -17,24 +18,33 @@ namespace BecomeNinja
         public Delegates()
         {
 
-            MyDelegate del = ClassA.MethodA;
-            del("Hello World");
+            // MyDelegate del = ClassA.MethodA;
+            // del("Hello World");
 
-            del = ClassB.MethodB;
-            del("Hello World");
+            // del = ClassB.MethodB;
+            // del("Hello World");
 
-            del = (string msg) => Console.WriteLine("Called lambda expression: " + msg);
-            del("Hello World");
+            // del = (string msg) => Console.WriteLine("Called lambda expression: " + msg);
+            // del("Hello World");
 
 
-            MyDelegate del2 = ClassA.MethodA;
-            InvokeDelegate(del2);
+            // MyDelegate del2 = ClassA.MethodA;
+            // InvokeDelegate(del2);
 
-            del2 = ClassB.MethodB;
-            InvokeDelegate(del2);
+            // del2 = ClassB.MethodB;
+            // InvokeDelegate(del2);
 
-            del2 = (string msg) => Console.WriteLine("Called lambda expression: " + msg);
-            InvokeDelegate(del2);
+            // del2 = (string msg) => Console.WriteLine("Called lambda expression: " + msg);
+            // InvokeDelegate(del2);
+
+            Add<int> add = (int x, int y) => x + y;
+            
+
+            var adder = new DelegateFunction<int>();
+            var sumFunc = adder.Adder = (int x, int y) => x + y;
+
+            Func<int, int , int> factory = (int a, int b) => a - b;
+            Console.WriteLine(factory(401, 50));
         }
         static void InvokeDelegate(MyDelegate del)
         {
@@ -77,5 +87,9 @@ namespace BecomeNinja
         {
             return str1 + str2;
         }
+    }
+    public class DelegateFunction<T> where T : struct
+    {
+        public Func<T, T, T> Adder;
     }
 }

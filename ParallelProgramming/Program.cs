@@ -68,29 +68,29 @@ namespace ParallelProgramming
                     CancellationToken = cancellationTokenSource.Token
                 };
 
-                // Parallel.Invoke(option, async () => await turkey.Cook(), async () => await mashPotatoes.Cook(), async () => await gravy.Cook(), async () => await stuffing.Cook());
+                Parallel.Invoke(option, async () => await turkey.Cook(), async () => await mashPotatoes.Cook(), async () => await gravy.Cook(), async () => await stuffing.Cook());
 
                 // BLOCKS here until ALL tasks finish
-                // Task.WaitAll(turkey.Cook(), mashPotatoes.Cook(), gravy.Cook(), stuffing.Cook());
+                Task.WaitAll(turkey.Cook(), mashPotatoes.Cook(), gravy.Cook(), stuffing.Cook());
 
                 int numberOfOrderTurkey = 10;
                 int numberOfOrderMashPotato = 50;
                 int numberOfOrderGravy = 50;
                 int numberOfOrderStuffing = 20;
 
-                // Parallel.For(1, numberOfOrderTurkey, option, (int orderNumber) => turkey.Order(orderNumber));
-                // Parallel.For(1, numberOfOrderMashPotato, option, (int orderNumber) => mashPotatoes.Order(orderNumber));
-                // Parallel.For(1, numberOfOrderGravy, option, (int orderNumber) => gravy.Order(orderNumber));
-                // Parallel.For(1, numberOfOrderStuffing, option, (int orderNumber) => stuffing.Order(orderNumber));
+                Parallel.For(1, numberOfOrderTurkey, option, (int orderNumber) => turkey.Order(orderNumber));
+                Parallel.For(1, numberOfOrderMashPotato, option, (int orderNumber) => mashPotatoes.Order(orderNumber));
+                Parallel.For(1, numberOfOrderGravy, option, (int orderNumber) => gravy.Order(orderNumber));
+                Parallel.For(1, numberOfOrderStuffing, option, (int orderNumber) => stuffing.Order(orderNumber));
 
 
-                // await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderTurkey), option, async (orderNumber, token) => await turkey.OrderAsync(orderNumber));
+                await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderTurkey), option, async (orderNumber, token) => await turkey.OrderAsync(orderNumber));
 
-                // await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderMashPotato), option, async (orderNumber, token) => await mashPotatoes.OrderAsync(orderNumber));
+                await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderMashPotato), option, async (orderNumber, token) => await mashPotatoes.OrderAsync(orderNumber));
 
-                // await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderGravy), option, async (orderNumber, token) => await gravy.OrderAsync(orderNumber));
+                await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderGravy), option, async (orderNumber, token) => await gravy.OrderAsync(orderNumber));
 
-                // await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderStuffing), option, async (orderNumber, token) => await stuffing.OrderAsync(orderNumber));
+                await Parallel.ForEachAsync(Enumerable.Range(1, numberOfOrderStuffing), option, async (orderNumber, token) => await stuffing.OrderAsync(orderNumber));
 
 
                 //         using (var countdown = new CountdownEvent(
